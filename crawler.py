@@ -28,10 +28,7 @@ class Crawler():
         documents_collected = []
 
         for url in filing_urls:
-            import ipdb
-            ipdb.set_trace()
             text_urls = get_filing_htmls(url)
-            import ipdb
             directory = make_directories_to_store(_type, company_code, priorto, url)
 
             for text_url in text_urls:
@@ -43,6 +40,7 @@ class Crawler():
                     html_text = get_text(text_url)
                     save_filing_texts(html_text, directory, name)
                     documents_collected.append(name)
+            print("Collected documents from: " + url)
         print("Finished collecting " + _type + " documents for " + company_code)
 
 
