@@ -34,7 +34,7 @@ class Crawler():
             for text_url in text_urls:
 
                 name_parts = text_url.split("/")
-                name = name_parts[len(name_parts) - 1]
+                name = name_parts[len(name_parts) - 1].replace(".htm",".txt")
                 
                 if name not in documents_collected:
                     html_text = get_text(text_url)
