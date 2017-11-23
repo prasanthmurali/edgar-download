@@ -6,10 +6,6 @@ __email__ = "sreekumar.s@husky.neu.edu"
 __version__ = "0.0.1"
 
 
-'''
-   Sec-edgar downloads: https://github.com/rahulrrixe/sec-edgar
-'''
-
 cfg = config.read()
 company_codes = cfg.get("filing","companycodes").split(",")
 filing_types = cfg.get("filing","filing_types").split(",")
