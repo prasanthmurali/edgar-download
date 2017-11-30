@@ -10,12 +10,6 @@ __version__ = "0.0.1"
 
 cfg = config.read()
 
-# company_codes = cfg.get("filing","companycodes").split(",")
-# filing_types = cfg.get("filing","filing_types").split(",")
-# ciks = cfg.get("filing","ciks").split(",")
-# priortos = cfg.get("filing","priortos").split(",")
-# counts = cfg.get("filing","counts").split(",")
-
 base_url = "https://www.sec.gov/Archives/edgar/full-index"
 years = cfg.get("filing","years").split(",")
 quarters = cfg.get("filing","quarters").split(",")
@@ -38,7 +32,6 @@ def collect_and_store_text(url_info, year, quarter):
             html = urllib.request.urlopen(url).read()
             text = html.decode(encoding='utf-8',errors='ignore')
 
-            #company  = url_info[0]
             file_type = url_info[0]
             cik = url_info[1]
             date = url_info[2]
@@ -49,13 +42,17 @@ def collect_and_store_text(url_info, year, quarter):
             filepath = foldername + os.sep + file_type + os.sep + cik + os.sep + date 
             os.makedirs(filepath)
 
-            
 
-            with open(filepath + os.sep + filename, "w") as f:
+            file_to_write = filepath + os.sep + filename
+
+            if os.path.isfile(file_to_write):
+                os.remove(file_to_write)
+
+
+
+            with open(file_to_write, "w") as f:
                 f.write(text)
 
-            import ipdb
-            ipdb.set_trace()
 
         except Exception as e:
             print(e)
@@ -89,7 +86,6 @@ def get_text_urls(row):
     length = len(parts)
     
     try:
-#        company_name = " ".join(parts[0:length-4]).strip()
         form_type = parts[length-4].strip()
         cik = parts[length-3].strip()
         date = parts[length-2].strip()
