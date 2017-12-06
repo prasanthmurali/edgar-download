@@ -69,8 +69,9 @@ def collect_and_store_text(url_info, year, quarter):
 
 
         except Exception as e:
-            print(e)
-            print("Error collecting :", url)
+            pass
+            # print(e)
+            # print("Error collecting :", url)
 
 
 def get_text_urls(row):
@@ -115,10 +116,16 @@ def make_url(parts):
     year = parts[0]
     quarter = parts[1]
 
-    cik = None
+    filing_type = None
 
     if(len(parts) > 2):
-        cik = parts[2]
+        if(parts[2].strip() != ""):
+            filing_type = parts[2]
+
+    cik = None
+
+    if(len(parts) > 3):
+        cik = parts[3]
 
     url = base_url + "/" + year + "/" + quarter + "/" + "company.idx"
 
@@ -132,23 +139,23 @@ def make_url(parts):
     data_text = text.split("\n")
     rows = data_text[1:len(data_text)]
     if cik is None:
-        import ipdb
-        ipdb.set_trace()
         text_url_info = [get_text_urls(row) for row in rows]
     else:
         text_url_info = [get_text_urls(row) for row in rows if cik in row]        
 
+
+    if filing_type is not None:
+        text_url_info = [info for info in text_url_info if len(info) > 0 and info[0] == filing_type]
+
+    import ipdb
+    ipdb.set_trace()
     make_directories_to_store(year, quarter)
     [collect_and_store_text(url_info, year, quarter) for url_info in text_url_info]
     
-    pass
-
 
 
 
 def get_urls_from_filters(filter_string):
-    """
-    """
     parts_list = [url_parts.split(":") for url_parts in filter_string.split(";")]
     [make_url(parts) for parts in parts_list]
     

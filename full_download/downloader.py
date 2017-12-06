@@ -25,8 +25,6 @@ filter_string = cfg.get("archive","filters")
 
 
 def get_documents_from_filter_string():
-    """
-    """
     utils.get_urls_from_filters(filter_string)
 
 
@@ -48,11 +46,6 @@ def make_directories_to_store(year, quarter):
 
 
 def get_text_urls(row):
-    """
-    
-    Arguments:
-    - `url`:
-    """
     parts = re.split(" +", row.strip())
 
     length = len(parts)
@@ -71,9 +64,6 @@ def get_text_urls(row):
 
 
 def get_urls():
-    """
-    """
-
     urls = []
     
     for idx in range(len(years)):
