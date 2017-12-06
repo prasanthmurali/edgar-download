@@ -3,6 +3,8 @@ import urllib.request
 import re
 import os, shutil
 
+import utils
+
 __author__ = "Sreejith Sreekumar"
 __email__ = "sreekumar.s@husky.neu.edu"
 __version__ = "0.0.1"
@@ -18,45 +20,15 @@ text_base_url = "https://www.sec.gov/Archives"
 base_folder = cfg.get("folder","base")
 
 
-
-def collect_and_store_text(url_info, year, quarter):
-
-    if len(url_info) == 4:
-
-        foldername = get_folder_name(year, quarter)
-
-        try:
-            url = url_info[len(url_info)-1]
-
-
-            html = urllib.request.urlopen(url).read()
-            text = html.decode(encoding='utf-8',errors='ignore')
-
-            file_type = url_info[0]
-            cik = url_info[1]
-            date = url_info[2]
-
-            url_parts = url_info[3].split("/")
-            filename = "".join(url_parts[len(url_parts) - 2:])
-
-            filepath = foldername + os.sep + file_type + os.sep + cik + os.sep + date 
-            os.makedirs(filepath)
-
-
-            file_to_write = filepath + os.sep + filename
-
-            if os.path.isfile(file_to_write):
-                os.remove(file_to_write)
+filter_string = cfg.get("archive","filters")
 
 
 
-            with open(file_to_write, "w") as f:
-                f.write(text)
+def get_documents_from_filter_string():
+    """
+    """
+    utils.get_urls_from_filters(filter_string)
 
-
-        except Exception as e:
-            print(e)
-            print("Error collecting :", url)
 
 
 
@@ -122,4 +94,6 @@ def get_urls():
     pass
 
 
-print(get_urls())
+#print(get_urls())
+
+get_documents_from_filter_string()
