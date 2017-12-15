@@ -5,6 +5,8 @@ import os, shutil
 
 import utils
 
+import connector
+
 __author__ = "Sreejith Sreekumar"
 __email__ = "sreekumar.s@husky.neu.edu"
 __version__ = "0.0.1"
@@ -80,10 +82,10 @@ def get_urls():
         text_url_info = [get_text_urls(row) for row in rows]
 
         make_directories_to_store(years[idx], quarters[idx])
-        [collect_and_store_text(url_info, years[idx], quarters[idx]) for url_info in text_url_info]
+        [utils.collect_and_store_text(url_info, years[idx], quarters[idx]) for url_info in text_url_info]
     pass
 
 
 #print(get_urls())
-
+connector.create_url_info_table()
 get_documents_from_filter_string()

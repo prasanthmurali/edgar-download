@@ -4,6 +4,7 @@ import os, shutil
 import config
 
 import string
+import connector
 
 from bs4 import BeautifulSoup
 
@@ -13,6 +14,8 @@ __version__ = "0.0.1"
 
 
 cfg = config.read()
+
+rows_to_insert = []
 
 
 filter_string = cfg.get("archive","filters")
@@ -28,6 +31,7 @@ def get_readable_text(raw_html):
     cleantext = BeautifulSoup(raw_html).text
     return cleantext
     
+
 
 
 
@@ -49,6 +53,8 @@ def collect_and_store_text(url_info, year, quarter):
             file_type = url_info[0]
             cik = url_info[1]
             date = url_info[2]
+
+            connector.insert_into_postgres(cik, file_type, date, url)
 
             url_parts = url_info[3].split("/")
             filename = "".join(url_parts[len(url_parts) - 2:])
@@ -147,8 +153,6 @@ def make_url(parts):
     if filing_type is not None:
         text_url_info = [info for info in text_url_info if len(info) > 0 and info[0] == filing_type]
 
-    import ipdb
-    ipdb.set_trace()
     make_directories_to_store(year, quarter)
     [collect_and_store_text(url_info, year, quarter) for url_info in text_url_info]
     
