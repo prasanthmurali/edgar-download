@@ -15,5 +15,8 @@
 	     ``` 2002:QTR3:8:-K:1050122  ```
       + The last two fields of the filter can be kept empty which will result in collecting all filings from 2002 to QTR3.
       + Multiple filters like this has to be separated by a semicolon. A typical filter would look like
-        ``` 2002:QTR3::1050122;2017:QTR4:10-Q:1588014;2016:QTR2:8-K: ```			    
+        	 ``` 2002:QTR3::1050122;2017:QTR4:10-Q:1588014;2016:QTR2:8-K: ```
+ - For running the code
+       1. configure the filters
+       2. Run the code by ``` ipython downloader.py ```	  
 		    
