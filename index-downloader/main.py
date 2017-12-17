@@ -19,7 +19,7 @@ batch_size = 10000
 
 def insert_to_db():
     global queue
-    
+    print("Inserting next batch of 10000 rows into postgres...")
     dbutils.insert_batch_into_postgres(queue)
     queue = []
     
