@@ -86,6 +86,4 @@ def get_urls():
     pass
 
 
-#print(get_urls())
-connector.create_url_info_table()
 get_documents_from_filter_string()

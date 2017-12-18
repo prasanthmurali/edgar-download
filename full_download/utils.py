@@ -54,8 +54,6 @@ def collect_and_store_text(url_info, year, quarter):
             cik = url_info[1]
             date = url_info[2]
 
-            connector.insert_into_postgres(cik, file_type, date, url)
-
             url_parts = url_info[3].split("/")
             filename = "".join(url_parts[len(url_parts) - 2:])
 
