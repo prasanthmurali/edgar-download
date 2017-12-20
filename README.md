@@ -1,4 +1,9 @@
-# edgar-download
+# Edgar Filing Information Downloader
 
-  -  The downloader has been moved to [full_download](full_download)
-	    
+### download edgar filings text with filter string
+
+  - [full_download](full_download)
+
+### download index information and save them onto postgres as a table
+
+  - [index-downloader](index-downloader)

@@ -4,8 +4,6 @@ import os, shutil
 import config
 
 import string
-import connector
-
 from bs4 import BeautifulSoup
 
 __author__ = "Sreejith Sreekumar"
@@ -16,6 +14,7 @@ __version__ = "0.0.1"
 cfg = config.read()
 
 rows_to_insert = []
+quarters = ['QTR1','QTR2','QTR3','QTR4']
 
 
 filter_string = cfg.get("archive","filters")
@@ -54,8 +53,6 @@ def collect_and_store_text(url_info, year, quarter):
             cik = url_info[1]
             date = url_info[2]
 
-            connector.insert_into_postgres(cik, file_type, date, url)
-
             url_parts = url_info[3].split("/")
             filename = "".join(url_parts[len(url_parts) - 2:])
 
@@ -76,9 +73,7 @@ def collect_and_store_text(url_info, year, quarter):
 
         except Exception as e:
             pass
-            # print(e)
-            # print("Error collecting :", url)
-
+    
 
 def get_text_urls(row):
 
@@ -124,6 +119,7 @@ def make_url(parts):
 
     filing_type = None
 
+
     if(len(parts) > 2):
         if(parts[2].strip() != ""):
             filing_type = parts[2]
@@ -132,6 +128,14 @@ def make_url(parts):
 
     if(len(parts) > 3):
         cik = parts[3]
+
+    if(quarter.strip() == ""):
+        [collect_data_for_year_and_quarter(cik, quarter, year, parts, filing_type) for quarter in quarters]
+    else:
+        collect_data_for_year_and_quarter(cik, quarter, year, parts, filing_type)
+
+    
+def collect_data_for_year_and_quarter(cik, quarter, year, parts, filing_type):
 
     url = base_url + "/" + year + "/" + quarter + "/" + "company.idx"
 
