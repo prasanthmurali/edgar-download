@@ -30,7 +30,7 @@ def get_readable_text(raw_html):
     raw_html = bytes(raw_html, 'utf-16').decode("utf-16", 'ignore')
     cleantext = BeautifulSoup(raw_html).text
     return cleantext
-    
+
 
 
 
@@ -59,7 +59,7 @@ def collect_and_store_text(url_info, year, quarter):
             url_parts = url_info[3].split("/")
             filename = "".join(url_parts[len(url_parts) - 2:])
 
-            filepath = foldername + os.sep + file_type + os.sep + cik + os.sep + date 
+            filepath = foldername + os.sep + file_type + os.sep + cik + os.sep + date
             os.makedirs(filepath)
 
 
@@ -82,7 +82,7 @@ def collect_and_store_text(url_info, year, quarter):
 
 def get_text_urls(row):
 
-    
+
     parts = re.split(" +", row.strip())
 
     length = len(parts)
@@ -93,11 +93,11 @@ def get_text_urls(row):
         date = parts[length-2].strip()
 
         end_part = parts[length-1]
-        
+
         return [form_type, cik, date, text_base_url + "/" + end_part]
     except:
         print("Error in an entry in the index, skipping...")
-        return []    
+        return []
 
 
 
@@ -106,7 +106,7 @@ def get_folder_name(year, quarter):
 
 
 def make_directories_to_store(year, quarter):
-    
+
     foldername = get_folder_name(year, quarter)
 
     if os.path.exists(foldername):
@@ -114,7 +114,7 @@ def make_directories_to_store(year, quarter):
 
     os.makedirs(foldername)
     return foldername
-    
+
 
 
 def make_url(parts):
@@ -147,7 +147,7 @@ def make_url(parts):
     if cik is None:
         text_url_info = [get_text_urls(row) for row in rows]
     else:
-        text_url_info = [get_text_urls(row) for row in rows if cik in row]        
+        text_url_info = [get_text_urls(row) for row in rows if cik in row]
 
 
     if filing_type is not None:
@@ -155,12 +155,10 @@ def make_url(parts):
 
     make_directories_to_store(year, quarter)
     [collect_and_store_text(url_info, year, quarter) for url_info in text_url_info]
-    
+
 
 
 
 def get_urls_from_filters(filter_string):
     parts_list = [url_parts.split(":") for url_parts in filter_string.split(";")]
     [make_url(parts) for parts in parts_list]
-    
-
