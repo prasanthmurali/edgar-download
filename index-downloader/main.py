@@ -10,7 +10,7 @@ __version__ = "0.0.1"
 
 text_url_base = "https://www.sec.gov/Archives/"
 base_url = "https://www.sec.gov/Archives/edgar/full-index/"
-years = list(range(2012, 2018))
+years = list(range(1993, 2018))
 quarters = ["QTR1", "QTR2", "QTR3", "QTR4"]
 
 queue = []
