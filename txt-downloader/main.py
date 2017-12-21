@@ -17,6 +17,7 @@ conn = None
 batch_size = 1000
 cfg = config.read()
 foldername = cfg.get("data","location")
+table = cfg.get("postgres","table")
 
 def get_connection():
 
@@ -70,7 +71,7 @@ def get_urls_between_indices(start_index):
     cur = conn.cursor()
 
     print("Start Index:", start_index)
-    cur.execute("SELECT url FROM filings offset " + str(start_index) + " limit " + str(batch_size))
+    cur.execute("SELECT url FROM " + table + " offset " + str(start_index) + " limit " + str(batch_size))
 
     for record in cur:
         crawl(record[0])
@@ -95,7 +96,7 @@ def get_count(tablename):
 make_folder_to_store(foldername)
 
 
-count = get_count("filings")
+count = get_count(table)
 cut_off = int(count/batch_size)
 
 
